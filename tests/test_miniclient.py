@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from ssan.s3client import S3Client
+import os
 import config
 
 
@@ -40,16 +41,16 @@ def test_get_objects_by_prefix():
 
 # test_get_objects_by_prefix()
 
+dir_path = os.path.dirname(os.getcwd())
+s3_key = "e5SanheDataScience/S3Demo/ssan-project/"
+
 def test_sync_dir_to_bucket():
-    abspath = r"C:\Users\shu\Documents\PythonWorkSpace\py3\py33_projects\ssan-project\tests"
-    key = "e5SanheDataScience/S3Demo/tests"
-    client.sync_dir_to_bucket(key=key, abspath=abspath)
+    client.sync_dir_to_bucket(key=s3_key, dir_path=dir_path)
     
 # test_sync_dir_to_bucket()
 
 def test_sync_bucket_to_dir():
-    dir_path = r"C:\Users\shu\Documents\PythonWorkSpace\py3\py33_projects\ssan-project\tests\downloaded"
-    key = "e5SanheDataScience/S3Demo/tests/"
-    client.sync_bucket_to_dir(key=key, dir_path=dir_path)
+    dir_path = os.path.abspath("downloaded")
+    client.sync_bucket_to_dir(key=s3_key, dir_path=dir_path)
     
-test_sync_bucket_to_dir()
+# test_sync_bucket_to_dir()

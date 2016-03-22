@@ -20,6 +20,14 @@ if platform.system() == "Windows":
     
 
 class S3Client(object):
+    """A mini S3Client can
+    
+    http://boto3.readthedocs.org/en/latest/guide/configuration.html#guide-configuration
+    
+    :param aws_access_key_id:
+    :param aws_secret_access_key:
+    :param region_name: 
+    """
     def __init__(self, aws_access_key_id=None, 
                  aws_secret_access_key=None, 
                  region_name=None):        
@@ -101,8 +109,8 @@ class S3Client(object):
                 col.append((key, content))
         return col
     
-    # --- Utility Method ---
-    def sync_dir_to_bucket(self, key, abspath):
+    #--- Utility Method ---
+    def sync_dir_to_bucket(self, key, dir_path):
         """
         
         ***中文文档**
@@ -112,17 +120,17 @@ class S3Client(object):
         if not key.endswith("/"):
             key = key + "/"
 
-        if not os.path.isdir(abspath):
-            raise ValueError("'%s' is not a directory!" % abspath)
+        if not os.path.isdir(dir_path):
+            raise ValueError("'%s' is not a directory!" % dir_path)
 
         for obj in self.bucket.objects.filter(Prefix=key):
             obj.delete()
             
         key_list, abspath_list = list(), list()
-        for current_dir, folder_list, file_list in os.walk(abspath):
+        for current_dir, folder_list, file_list in os.walk(dir_path):
             for filename in file_list:
                 path = os.path.join(current_dir, filename)
-                relpath = os.path.relpath(path, abspath)
+                relpath = os.path.relpath(path, dir_path)
                 obj_key = (key + relpath).replace("\\", "/")
                  
                 key_list.append(obj_key)
