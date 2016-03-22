@@ -1,3 +1,18 @@
+# =========================
+# User Setting
+# =========================
+
+# File
+*.pyc
+tests/config.py
+
+# Directory
+build
+dist
+source/ssan
+ssan.egg-info
+
+# =========================
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
